@@ -1,5 +1,5 @@
 {
-  "name": "api-auditory",
+  "name": "API-Auditory",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
-  "author": "",
+  "author": "Antonio Payá González",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
