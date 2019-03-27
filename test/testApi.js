@@ -122,7 +122,7 @@ mocha.describe('Get 2 or + param: ',function () {
     it('Busqueda por device e id', (done) => {
         var token = auth.createToken(mongo.login("user","user").userName)
         chai.request(url)
-            .get('/data?id=ID_PRUEBA_0&device=prueba')
+            .get('/data?id=ID_PRUEBA_0&device=test')
             .set('Authorization',token)
             .end( function(err,res){
                 expect(res).to.have.status(200);
