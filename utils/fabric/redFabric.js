@@ -39,6 +39,17 @@ module.exports = class RedFabric {
     };
     return this.connection.query(requestData);
   }
+
+  queryHistory(id) {
+    var tx_id = this.connection.newTransactionID();
+    var requestData = {
+      chaincodeId: 'mycontract',
+      fcn: 'getDatoHistory',
+      args: [id],
+      txId: tx_id
+    };
+    return this.connection.query(requestData);
+  }
   
 }
 

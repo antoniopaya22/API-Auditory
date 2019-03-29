@@ -12,7 +12,7 @@ module.exports = function (app, redFabric, mongo) {
         }).catch(err=> {
             res.status(500).send("Cant create user :"+err)
         })
-    })
+    });
     
     app.post("/login", (req, res) => {
         mongo.login(req.body.userName, req.body.password).then(doc => {
@@ -20,7 +20,7 @@ module.exports = function (app, redFabric, mongo) {
         }).catch(err =>{
             res.status(403).send(err)
         })
-    })
+    });
 
     app.get("/data", auth.isAuth, (req, res) => {
         redFabric.queryAllDatos().then(data => {
@@ -39,7 +39,7 @@ module.exports = function (app, redFabric, mongo) {
         }).catch(err=> {
             res.status(500).send("Vaya por dios: "+err)
         })
-    })
+    });
 
     app.get("/data/devices", auth.isAuth, (req, res) => {
         redFabric.queryAllDatos().then(data => {
@@ -52,6 +52,15 @@ module.exports = function (app, redFabric, mongo) {
         }).catch(err=> {
             res.status(500).send("Vaya por dios: "+err)
         })
-    })
+    });
+
+    app.get("/data/device/:id",auth.isAuth,function(req,res){
+        var id=req.params.id;
+        redFabric.queryHistory(id).then(data=>{
+            res.status(200).json(data);
+        }).catch(err=>{
+            res.status(500).send("Vaya por dios: "+err)
+        });
+    });
 
 }
