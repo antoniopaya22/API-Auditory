@@ -3,8 +3,7 @@ const user = require("../models/user")
 
 module.exports = {
     init: () => {
-        const mongoDB = process.env.MONGO_URL
-        console.log(mongoDB)
+        const mongoDB = process.env.MONGO_URL;
         mongoose.connect(mongoDB, { useNewUrlParser: true })
 
         mongoose.Promise = global.Promise
