@@ -63,4 +63,15 @@ module.exports = function (app, redFabric, mongo) {
         });
     });
 
+    app.post("/data/query", function (req, res) {
+        redFabric.init().then(function () {
+        consulta = req.body;
+        return redFabric.fantasticQuery(JSON.stringify(consulta));
+        }).then(function (data) {
+        res.status(200).json(data)
+        }).catch(function (err) {
+        res.status(500).json({ error: err.toString() })
+        })
+    });
+
 }
