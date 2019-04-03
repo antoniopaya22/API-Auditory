@@ -61,7 +61,6 @@ module.exports = class RedFabric {
     };
     return this.connection.query(requestData);
   }
-}
   
 }
 
