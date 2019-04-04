@@ -32,7 +32,7 @@ mocha.describe('Get 1 param: ',function () {
 	it('Busqueda por id', (done) => {
         var token = auth.createToken(mongo.login("user","user").userName)
 		chai.request(url)
-			.get('/data?id=ID_PRUEBA_0')
+			.get('/data?Key=ID_PRUEBA_0')
 			.set('Authorization',token)
 			.end( function(err,res){
                 expect(res).to.have.status(200);

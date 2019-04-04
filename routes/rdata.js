@@ -63,9 +63,6 @@ module.exports = function (app, redFabric, mongo) {
         });
     });
 
-    /**
-   * GET fantastic query
-   */
     app.post("/data/query", function (req, res) {
         redFabric.init().then(function () {
             var consulta = req.body;
