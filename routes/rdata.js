@@ -63,15 +63,18 @@ module.exports = function (app, redFabric, mongo) {
         });
     });
 
-    app.post("/data/query", function (req, res) {
+    /**
+   * GET fantastic query
+   */
+    app.post("/api/query", function (req, res) {
         redFabric.init().then(function () {
-        consulta = req.body;
-        return redFabric.fantasticQuery(JSON.stringify(consulta));
+            var consulta = req.body;
+            return redFabric.fantasticQuery(JSON.stringify(consulta));
         }).then(function (data) {
-        res.status(200).json(data)
+            res.status(200).json(data)
         }).catch(function (err) {
-        res.status(500).json({ error: err.toString() })
+            res.status(500).json({ error: err.toString() })
         })
-    });
+  });
 
 }
