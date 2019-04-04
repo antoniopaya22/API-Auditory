@@ -4,9 +4,13 @@ const Filter = require("../utils/filter")
 const auth = require("../utils/authentication/authentication")
 
 module.exports = function (app, redFabric, mongo) {
+
+    /**
+     * POST registrar usuario por defecto
+     */
     app.post("/register", function (req, res) {
-        let userName = "user"
-        let password = "user"
+        let userName = "user";
+        let password = "user";
         mongo.createUser(userName, password).then(user=>{
             res.send(user)
         }).catch(err=> {
@@ -14,6 +18,9 @@ module.exports = function (app, redFabric, mongo) {
         })
     });
     
+    /**
+     * POST login with user and password
+     */
     app.post("/login", (req, res) => {
         mongo.login(req.body.userName, req.body.password).then(doc => {
             res.send(auth.createToken(doc.userName))
@@ -22,6 +29,10 @@ module.exports = function (app, redFabric, mongo) {
         })
     });
 
+    /**
+     * GET all data with filters in params
+     * Filter in local
+     */
     app.get("/data", auth.isAuth, (req, res) => {
         redFabric.queryAllDatos().then(data => {
             const result = (new Filter(data))
@@ -41,6 +52,10 @@ module.exports = function (app, redFabric, mongo) {
         })
     });
 
+    /**
+     * GET get all devices
+     * Filter in local
+     */
     app.get("/data/devices", auth.isAuth, (req, res) => {
         redFabric.queryAllDatos().then(data => {
             var result = {};
@@ -54,7 +69,11 @@ module.exports = function (app, redFabric, mongo) {
         })
     });
 
-    app.get("/data/device/:id",auth.isAuth,function(req,res){
+    /**
+     * GET history from data by id
+     * Filter in blockchain
+     */
+    app.get("/data/history/:id",auth.isAuth,function(req,res){
         var id=req.params.id;
         redFabric.queryHistory(id).then(data=>{
             res.status(200).json(data);
@@ -63,6 +82,10 @@ module.exports = function (app, redFabric, mongo) {
         });
     });
 
+    /**
+     * POST send query to CouchDB
+     * Filter in blockchain
+     */
     app.post("/data/query", function (req, res) {
         redFabric.init().then(function () {
             var consulta = req.body;
@@ -72,6 +95,6 @@ module.exports = function (app, redFabric, mongo) {
         }).catch(function (err) {
             res.status(500).json({ error: err.toString() })
         })
-  });
+    });
 
 }
