@@ -9,11 +9,11 @@
  */
 
 const express = require("express")
-const RedFabric = require("./utils/fabric/redFabric")
+const RedFabric = require("./modules/fabric/redFabric")
 let app = express()
 let morgan = require("morgan")
 let bodyParser = require('body-parser')
-let mongo = require("./utils/mongo")
+let mongo = require("./modules/mongo")
 require('dotenv').config()
 
 //==========VARIABLES===============

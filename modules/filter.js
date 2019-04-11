@@ -25,13 +25,13 @@ module.exports = class Filter{
 
     lowerTemp(arg){
         if(arg === undefined || arg == "") return this
-        this.dataArray = this.dataArray.filter(data => data.Record.temperature >= arg)
+        this.dataArray = this.dataArray.filter(data => parseInt(data.Record.temperature) >= parseInt(arg))
         return this
     }
 
     greaterTemp(arg){
         if(arg === undefined || arg == "") return this
-        this.dataArray = this.dataArray.filter(data => data.Record.temperature <= arg)
+        this.dataArray = this.dataArray.filter(data => parseInt(data.Record.temperature) <= parseInt(arg))
         return this
     }
 

@@ -4,9 +4,9 @@ let chaiHttp = require('chai-http');
 const expect = require('chai').expect;
 let should = chai.should();
 require('dotenv').config()
-let mongo = require('../utils/mongo');
+let mongo = require('../modules/mongo');
 mongo.init();
-const auth = require("../utils/authentication/authentication")
+const auth = require("../modules/authentication/authentication")
 
 chai.use(chaiHttp);
 const url= 'http://localhost:23658';

@@ -1,7 +1,7 @@
 "use strict"
 
-const Filter = require("../utils/filter")
-const auth = require("../utils/authentication/authentication")
+const Filter = require("../modules/filter")
+const auth = require("../modules/authentication/authentication")
 
 module.exports = function (app, redFabric, mongo) {
 
