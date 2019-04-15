@@ -36,6 +36,22 @@ mocha.describe('Prueba a realizar un Login correcto y uno incorrecto: ',function
     
 });
 
+mocha.describe('Prueba a buscar todos los datos: ',function () {
+    this.timeout(5000);
+
+    it('Get all data', (done) => {
+        var token = auth.createToken(mongo.login("user","user").userName)
+        chai.request(url)
+            .get('/data')
+            .set('Authorization',token)
+            .end( function(err,res){
+                expect(res).to.have.status(200);
+                res.body.should.be.a('array');
+                done();
+            });
+    });  
+});
+
 mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     this.timeout(5000);
 
@@ -131,6 +147,39 @@ mocha.describe('Prueba a buscar datos con 2 o mas parametros: ',function () {
             });
     });  
     
+});
+
+
+mocha.describe('Prueba a buscar el historial del dato ID_PRUEBA_0: ',function () {
+    this.timeout(5000);
+
+    it('Get History', (done) => {
+        var token = auth.createToken(mongo.login("user","user").userName)
+        chai.request(url)
+            .get('/data/history/ID_PRUEBA_0')
+            .set('Authorization',token)
+            .end( function(err,res){
+                expect(res).to.have.status(200);
+                res.body.should.be.a('array');
+                done();
+            });
+    });  
+});
+
+mocha.describe('Prueba a buscar todos los devices: ',function () {
+    this.timeout(5000);
+
+    it('Get History', (done) => {
+        var token = auth.createToken(mongo.login("user","user").userName)
+        chai.request(url)
+            .get('/data/devices')
+            .set('Authorization',token)
+            .end( function(err,res){
+                expect(res).to.have.status(200);
+                res.body.should.be.a('array');
+                done();
+            });
+    });  
 });
 
 mocha.describe('Prueba a obtener un dato mediante una query ',function () {
