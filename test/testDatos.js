@@ -169,14 +169,14 @@ mocha.describe('Prueba a buscar el historial del dato ID_PRUEBA_0: ',function ()
 mocha.describe('Prueba a buscar todos los devices: ',function () {
     this.timeout(5000);
 
-    it('Get History', (done) => {
+    it('Get all devices', (done) => {
         var token = auth.createToken(mongo.login("user","user").userName)
         chai.request(url)
             .get('/data/devices')
             .set('Authorization',token)
             .end( function(err,res){
                 expect(res).to.have.status(200);
-                res.body.should.be.a('array');
+                res.body.should.be.a('object');
                 done();
             });
     });  
