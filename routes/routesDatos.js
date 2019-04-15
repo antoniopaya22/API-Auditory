@@ -14,7 +14,7 @@ module.exports = function (app, redFabric, mongo) {
         mongo.createUser(userName, password).then(user=>{
             res.send(user)
         }).catch(err=> {
-            res.status(500).send("Cant create user :"+err)
+            res.status(500).json({ error: err.toString() });
         })
     });
     
@@ -25,7 +25,7 @@ module.exports = function (app, redFabric, mongo) {
         mongo.login(req.body.userName, req.body.password).then(doc => {
             res.send(auth.createToken(doc.userName))
         }).catch(err =>{
-            res.status(403).send(err)
+            res.status(403).json({ error: err.toString() });
         })
     });
 
@@ -40,15 +40,12 @@ module.exports = function (app, redFabric, mongo) {
                 .temp(req.query.temperature)
                 .lowerTemp(req.query.lowerTemperature)
                 .greaterTemp(req.query.greaterTemperature)
-                .time(req.query.hour)
-                .lowerTime(req.query.lowerHour)
-                .greaterTime(req.query.greaterHour)
                 .device(req.query.device)
                 .node(req.query.node)
                 .getData()
-            res.send(result)
+            res.send(result);
         }).catch(err=> {
-            res.status(500).send("Vaya por dios: "+err)
+            res.status(500).json({ error: err.toString() });
         })
     });
 
@@ -63,9 +60,9 @@ module.exports = function (app, redFabric, mongo) {
                 if (result[x.Record.device] == undefined) result[x.Record.device] = x;
                 else if(result[x.Record.device] != undefined && parseInt(x.Key.match(/\d+/)[0]) > parseInt(result[x.Record.device].Key.match(/\d+/)[0])) result[x.Record.device] = x;
             });
-            res.send(result)
+            res.send(result);
         }).catch(err=> {
-            res.status(500).send("Vaya por dios: "+err)
+            res.status(500).json({ error: err.toString() });
         })
     });
 
@@ -78,7 +75,7 @@ module.exports = function (app, redFabric, mongo) {
         redFabric.queryHistory(id).then(data=>{
             res.status(200).json(data);
         }).catch(err=>{
-            res.status(500).send("Vaya por dios: "+err)
+            res.status(500).json({ error: err.toString() });
         });
     });
 
@@ -93,7 +90,7 @@ module.exports = function (app, redFabric, mongo) {
         }).then(function (data) {
             res.status(200).json(data)
         }).catch(function (err) {
-            res.status(500).json({ error: err.toString() })
+            res.status(500).json({ error: err.toString() });
         })
     });
 

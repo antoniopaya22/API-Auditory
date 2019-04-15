@@ -9,7 +9,7 @@
  */
 
 const express = require("express")
-const RedFabric = require("./modules/fabric/redFabric")
+const RedFabric = require("./modules/redFabric")
 let app = express()
 let morgan = require("morgan")
 let bodyParser = require('body-parser')
@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 mongo.init()
 
 //==========RUTAS================
-require("./routes/rdata")(app, redFabric, mongo)
+require("./routes/routesDatos")(app, redFabric, mongo)
 
 //===========RUN===============
 // Lanza el servidor

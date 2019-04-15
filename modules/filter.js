@@ -35,25 +35,6 @@ module.exports = class Filter{
         return this
     }
 
-    //BY TIME
-    time(arg){
-        if(arg === undefined || arg == "") return this
-        this.dataArray = this.dataArray.filter(data => data.Record.hour == arg)
-        return this
-    }
-
-    lowerTime(arg){
-        if(arg === undefined || arg == "") return this
-        this.dataArray = this.dataArray.filter(data => data.Record.hour >= arg)
-        return this
-    }
-
-    greaterTime(arg){
-        if(arg === undefined || arg == "") return this
-        this.dataArray = this.dataArray.filter(data => data.Record.hour <= arg)
-        return this
-    }
-
     //BY DEVICE
     device(arg){
         if(arg === undefined || arg == "") return this

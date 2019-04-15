@@ -1,5 +1,5 @@
 'use strict';
-var fabricClient = require('./FabricClient');
+var fabricClient = require('../config/FabricClient');
 
 module.exports = class RedFabric {
 
