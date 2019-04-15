@@ -131,19 +131,6 @@ mocha.describe('Prueba a buscar datos con 2 o mas parametros: ',function () {
             });
     });  
     
-    it('By device & temperature', (done) => {
-        var token = auth.createToken(mongo.login("user","user").userName)
-        chai.request(url)
-            .get('/data?id=ID_PRUEBA_0&temperature=10')
-            .set('Authorization',token)
-            .end( function(err,res){
-                expect(res).to.have.status(200);
-                res.body.should.be.a('array');
-                res.body.length.should.be.eql(1);
-                done();
-            });
-    });  
-    
 });
 
 mocha.describe('Prueba a obtener un dato mediante una query ',function () {
