@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 mongo.init()
 
 //==========RUTAS================
+require("./routes/routesUsers")(app, redFabric, mongo)
 require("./routes/routesDatos")(app, redFabric, mongo)
 
 //===========RUN===============
