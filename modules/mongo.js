@@ -16,10 +16,11 @@ module.exports = {
 
     createUser: (userName, password, rol) => {
         return user.find({user:"auditor"}).then(doc => {
-            return new Promise((res, rej) => {
-                rej("Usuario ya existente");
-            })
-        }).catch(err =>{
+            if(doc.length > 0){
+                return new Promise((res, rej) => {
+                    rej("Usuario ya existente");
+                });
+            }
             return new Promise((res, rej) => {
                 user.create({ userName: userName }).then(doc => {
                     doc.setPassword(password)
@@ -30,7 +31,9 @@ module.exports = {
                 }).catch(err => {
                     rej(err)
                 })
-            })
+            });
+        }).catch(err =>{
+            rej(err);
         })
     },
 
