@@ -15,7 +15,7 @@ module.exports = {
     },
 
     createUser: (userName, password, rol) => {
-        this.login(req.body.userName, req.body.password).then(doc => {
+        this.login(userName, password).then(doc => {
             res.status(403).json({ error:"Usuario ya existente" });
         }).catch(err =>{
             return new Promise((res, rej) => {
