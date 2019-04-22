@@ -16,6 +16,7 @@ module.exports = {
 
     createUser: (userName, password, rol) => {
         return user.find({user:"auditor"}).then(doc => {
+            console.log(doc)
             if(doc.length > 0){
                 return new Promise((res, rej) => {
                     rej("Usuario ya existente");
