@@ -14,10 +14,11 @@ module.exports = {
         db.once('open', () => { console.log("Conectado a mongoDB") })
     },
 
-    createUser: (userName, password) => {
+    createUser: (userName, password, rol) => {
         return new Promise((res, rej) => {
             user.create({ userName: userName }).then(doc => {
                 doc.setPassword(password)
+                doc.setRol(rol)
                 doc.save().then(() => {
                     res(doc)
                 })
