@@ -15,7 +15,7 @@ module.exports = {
     },
 
     createUser: (userName, password, rol) => {
-        user.validate(userName, password).then(doc => {
+        return user.validate(userName, password).then(doc => {
             return new Promise((res, rej) => {
                 rej("Usuario ya existente");
             })
