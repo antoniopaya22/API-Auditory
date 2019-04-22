@@ -16,7 +16,9 @@ module.exports = {
 
     createUser: (userName, password, rol) => {
         user.validate(userName, password).then(doc => {
-            res.status(403).json({ error:"Usuario ya existente" });
+            return new Promise((res, rej) => {
+                rej("Usuario ya existente");
+            })
         }).catch(err =>{
             return new Promise((res, rej) => {
                 user.create({ userName: userName }).then(doc => {
