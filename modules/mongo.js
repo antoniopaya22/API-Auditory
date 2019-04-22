@@ -34,7 +34,7 @@ module.exports = {
                 })
             });
         }).catch(err =>{
-            rej(err);
+            return err;
         })
     },
 
