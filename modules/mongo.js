@@ -15,15 +15,19 @@ module.exports = {
     },
 
     createUser: (userName, password, rol) => {
-        return new Promise((res, rej) => {
-            user.create({ userName: userName }).then(doc => {
-                doc.setPassword(password)
-                doc.setRol(rol)
-                doc.save().then(() => {
-                    res(doc)
+        mongo.login(req.body.userName, req.body.password).then(doc => {
+            res.status(403).json({ error:"Usuario ya existente" });
+        }).catch(err =>{
+            return new Promise((res, rej) => {
+                user.create({ userName: userName }).then(doc => {
+                    doc.setPassword(password)
+                    doc.setRol(rol)
+                    doc.save().then(() => {
+                        res(doc)
+                    })
+                }).catch(err => {
+                    rej(err)
                 })
-            }).catch(err => {
-                rej(err)
             })
         })
     },
