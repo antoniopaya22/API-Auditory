@@ -8,6 +8,7 @@ let mongo = require('../modules/mongo');
 mongo.init();
 const auth = require("../modules/authentication/authentication")
 chai.use(chaiHttp);
+const roles = require('../models/roles')
 const url= 'http://localhost:23658';
 
 
@@ -17,7 +18,7 @@ mocha.describe('Prueba a realizar un Login correcto y uno incorrecto: ',function
 	it('Correct Login', (done) => {
 		chai.request(url)
 			.post('/login')
-			.send({userName:"auditor", password: "auditor",})
+			.send({userName: "auditor", password: "auditor"})
 			.end( function(err,res){
 				expect(res).to.have.status(200);
 				done();
@@ -40,7 +41,7 @@ mocha.describe('Prueba a buscar todos los datos: ',function () {
     this.timeout(5000);
 
     it('Get all data', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data')
             .set('Authorization',token)
@@ -56,7 +57,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     this.timeout(5000);
 
 	it('By id', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?Key=ID_PRUEBA_0')
 			.set('Authorization',token)
@@ -69,7 +70,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     });
 
     it('By temperature', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?temperature=41')
 			.set('Authorization',token)
@@ -81,7 +82,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     });
 
     it('By lowerTemperature', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?lowerTemperature=40')
 			.set('Authorization',token)
@@ -93,7 +94,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     });
 
     it('By greaterTemperature', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?greaterTemperature=40')
 			.set('Authorization',token)
@@ -105,7 +106,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     });
 
     it('By device', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?device=test')
 			.set('Authorization',token)
@@ -118,7 +119,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
     });
     
     it('By node', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?node=peer0.asturias.antonio.com')
 			.set('Authorization',token)
@@ -135,7 +136,7 @@ mocha.describe('Prueba a buscar datos con 2 o mas parametros: ',function () {
     this.timeout(5000);
 
     it('By device & id', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data?id=ID_PRUEBA_0&device=test')
             .set('Authorization',token)
@@ -154,7 +155,7 @@ mocha.describe('Prueba a buscar el historial del dato ID_PRUEBA_0: ',function ()
     this.timeout(5000);
 
     it('Get History', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data/history/ID_PRUEBA_0')
             .set('Authorization',token)
@@ -170,7 +171,7 @@ mocha.describe('Prueba a buscar todos los devices: ',function () {
     this.timeout(5000);
 
     it('Get all devices', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data/devices')
             .set('Authorization',token)
@@ -191,7 +192,7 @@ mocha.describe('Prueba a obtener un dato mediante una query ',function () {
 				"_id" : "ID_PRUEBA_0"
 			}
         }	
-        var token = auth.createToken(mongo.login("auditor","auditor").userName)	
+        var token = auth.createToken(mongo.login("auditor","auditor").userName,roles.auditor)	
 		chai.request(url)
             .post('/data/query')
             .set('Authorization',token)

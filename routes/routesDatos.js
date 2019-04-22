@@ -59,7 +59,7 @@ module.exports = function (app, redFabric, mongo) {
      * POST send query to CouchDB
      * Filter in blockchain
      */
-    app.post("/data/query", function (req, res) {
+    app.post("/data/query", auth.isAuth, function (req, res) {
         redFabric.init().then(function () {
             var consulta = req.body;
             return redFabric.fantasticQuery(JSON.stringify(consulta));
