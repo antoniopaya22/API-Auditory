@@ -12,35 +12,10 @@ const roles = require('../models/roles')
 const url= 'http://localhost:23658';
 
 
-mocha.describe('Prueba a realizar un Login correcto y uno incorrecto: ',function () {
+mocha.describe('Datos tests ',function () {
     this.timeout(5000);
 
-	it('Correct Login', (done) => {
-		chai.request(url)
-			.post('/login')
-			.send({userName: "auditor", password: "auditor"})
-			.end( function(err,res){
-				expect(res).to.have.status(200);
-				done();
-			});
-    });
-
-	it('Wrong Login', (done) => {
-		chai.request(url)
-			.post('/login')
-			.send({userName:"userX", password: "user",})
-			.end( function(err,res){
-				expect(res).to.have.status(403);
-				done();
-			});
-    });
-    
-});
-
-mocha.describe('Prueba a buscar todos los datos: ',function () {
-    this.timeout(5000);
-
-    it('Get all data', (done) => {
+    it('Obtener todos los datos.', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data')
@@ -51,12 +26,8 @@ mocha.describe('Prueba a buscar todos los datos: ',function () {
                 done();
             });
     });  
-});
 
-mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
-    this.timeout(5000);
-
-	it('By id', (done) => {
+    it('Buscar dato por id existente.', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?Key=ID_PRUEBA_0')
@@ -69,7 +40,20 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 			});
     });
 
-    it('By temperature', (done) => {
+    it('Buscar dato por id no existente.', (done) => {
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
+		chai.request(url)
+			.get('/data?Key=XXXXX')
+			.set('Authorization',token)
+			.end( function(err,res){
+                expect(res).to.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
+				done();
+			});
+    });
+
+    it('Buscar datos por temperatura', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?temperature=41')
@@ -81,7 +65,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 			});
     });
 
-    it('By lowerTemperature', (done) => {
+    it('Buscar datos por temperatura minima', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?lowerTemperature=40')
@@ -93,7 +77,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 			});
     });
 
-    it('By greaterTemperature', (done) => {
+    it('Buscar datos por temperatura maxima', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?greaterTemperature=40')
@@ -105,7 +89,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 			});
     });
 
-    it('By device', (done) => {
+    it('Buscar datos por device', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?device=test')
@@ -117,8 +101,8 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 				done();
 			});
     });
-    
-    it('By node', (done) => {
+
+    it('Buscar datos por nodo', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
 		chai.request(url)
 			.get('/data?node=peer0.asturias.antonio.com')
@@ -130,31 +114,7 @@ mocha.describe('Prueba a buscar datos con 1 parametro: ',function () {
 			});
     });
 
-});
-
-mocha.describe('Prueba a buscar datos con 2 o mas parametros: ',function () {
-    this.timeout(5000);
-
-    it('By device & id', (done) => {
-        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
-        chai.request(url)
-            .get('/data?id=ID_PRUEBA_0&device=test')
-            .set('Authorization',token)
-            .end( function(err,res){
-                expect(res).to.have.status(200);
-                res.body.should.be.a('array');
-                res.body.length.should.be.eql(1);
-                done();
-            });
-    });  
-    
-});
-
-
-mocha.describe('Prueba a buscar el historial del dato ID_PRUEBA_0: ',function () {
-    this.timeout(5000);
-
-    it('Get History', (done) => {
+    it('Buscar historial de un dato existente dado su id.', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data/history/ID_PRUEBA_0')
@@ -164,13 +124,20 @@ mocha.describe('Prueba a buscar el historial del dato ID_PRUEBA_0: ',function ()
                 res.body.should.be.a('array');
                 done();
             });
-    });  
-});
+    }); 
 
-mocha.describe('Prueba a buscar todos los devices: ',function () {
-    this.timeout(5000);
+    it('Buscar historial de un dato no existente dado su id.', (done) => {
+        var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
+        chai.request(url)
+            .get('/data/history/ID_PRUEBA_0')
+            .set('Authorization',token)
+            .end( function(err,res){
+                expect(res).to.have.status(500);
+                done();
+            });
+    }); 
 
-    it('Get all devices', (done) => {
+    it('Buscar todos los devices', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
             .get('/data/devices')
@@ -180,13 +147,9 @@ mocha.describe('Prueba a buscar todos los devices: ',function () {
                 res.body.should.be.a('object');
                 done();
             });
-    });  
-});
+    }); 
 
-mocha.describe('Prueba a obtener un dato mediante una query ',function () {
-    this.timeout(5000);
-
-    it('Deberia devolver el ID_PRUEBA_0', (done) => {
+    it('Obtener resultado para una consulta CouchDB', (done) => {
 		var query = {
 			"selector": {
 				"_id" : "ID_PRUEBA_0"
@@ -204,5 +167,5 @@ mocha.describe('Prueba a obtener un dato mediante una query ',function () {
 			done();
 			});
 	});
-    
+
 });
