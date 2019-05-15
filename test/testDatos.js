@@ -129,7 +129,7 @@ mocha.describe('Datos tests ',function () {
     it('Buscar historial de un dato no existente dado su id.', (done) => {
         var token = auth.createToken(mongo.login("auditor","auditor").userName, roles.auditor)
         chai.request(url)
-            .get('/data/history/ID_PRUEBA_0')
+            .get('/data/history/XXXXXX')
             .set('Authorization',token)
             .end( function(err,res){
                 expect(res).to.have.status(200);
