@@ -132,7 +132,9 @@ mocha.describe('Datos tests ',function () {
             .get('/data/history/ID_PRUEBA_0')
             .set('Authorization',token)
             .end( function(err,res){
-                expect(res).to.have.status(500);
+                expect(res).to.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(0);
                 done();
             });
     }); 
